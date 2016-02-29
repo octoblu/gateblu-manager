@@ -5,18 +5,14 @@ var config = require('./webpack.config.dev');
 
 var app = express();
 var compiler = webpack(config);
-var PORT = process.env.PORT || 5333;
+var PORT = process.env.PORT || 4040;
 
 app.use(require('webpack-dev-middleware')(compiler, {
   noInfo: true,
   publicPath: config.output.publicPath
 }));
 
-// app.use(require('webpack-hot-middleware')(compiler));
-
-app.get('/cwc', function(req, res) {
-  res.sendFile(path.join(__dirname, 'cwc.html'));
-});
+app.use(require('webpack-hot-middleware')(compiler));
 
 app.get('*', function(req, res) {
   res.sendFile(path.join(__dirname, 'index.html'));
