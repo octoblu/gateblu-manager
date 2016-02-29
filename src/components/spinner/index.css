@@ -1,0 +1,66 @@
+.Spinner {
+  position: relative;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.Spinner--small {
+  font-size: 6px;
+}
+
+ .Spinner--regular {
+   font-size: 12px;
+ }
+
+ .Spinner--large {
+  font-size: 18px;
+ }
+
+.Spinner-dot {
+  width: 1em;
+  height: 1em;
+
+  border-radius: 100%;
+  display: inline-block;
+  -webkit-animation: octo-dotdelay 1.4s infinite ease-in-out both;
+  animation: octo-dotdelay 1.4s infinite ease-in-out both;
+}
+
+.Spinner--neutral .Spinner-dot {
+  background-color: #6e798b;
+}
+
+.Spinner--primary .Spinner-dot {
+  background-color: #14568F;
+}
+
+.Spinner--inverted .Spinner-dot {
+  background-color: #FFF;
+}
+
+.Spinner-dot--first {
+  margin-right: 0.5em;
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+
+.Spinner-dot--second {
+  margin-right: 0.5em;
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+
+@-webkit-keyframes octo-dotdelay {
+  0%, 80%, 100% { -webkit-transform: scale(0) }
+  40% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes octo-dotdelay {
+  0%, 80%, 100% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  } 40% {
+    -webkit-transform: scale(1.0);
+    transform: scale(1.0);
+  }
+}

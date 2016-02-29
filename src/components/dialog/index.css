@@ -1,0 +1,32 @@
+.Dialog {
+  background: rgba(0, 0, 0, 0.3);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top:0;
+  left: 0;
+}
+
+.Dialog-card {
+  background: #FFF;
+  width: 480px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.Dialog-cardTitle {
+  margin: 0 0 24px;
+
+  font-size: 18px;
+  font-family: "citrixsans-bold", Arial, Helvetica, sans-serif;
+}
+
+.Dialog-cardBody {
+  /*display: flex;*/
+}
+
+.Dialog-cardActions {
+  display: flex;
+  justify-content: flex-end;
+  margin: 24px 0 0;
+}

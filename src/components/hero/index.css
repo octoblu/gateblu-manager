@@ -1,0 +1,43 @@
+.Hero {
+  width: 100%;
+  padding: 40px 24px;
+  position:relative;
+  margin-bottom: 24px;
+
+  color: #FFF;
+  text-align: center;
+}
+
+.Hero-title {
+  margin: 0;
+  padding:0;
+
+  font-family: 'citrixsans-bold', sans-serif;
+  font-size: 48px;
+  font-weight: normal;
+  line-height: 1.5;
+}
+
+.Hero-subTitle {
+  margin: 0;
+  padding: 0;
+
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 30px;
+  font-weight: normal;
+}
+
+
+.Hero-floatingButton {
+  position: absolute;
+  top: 50px;
+  right: 30px;
+  border-color: #FFF;
+  color: #FFF;
+}
+
+.Hero-floatingButton:hover {
+  border-color: #FFF;
+  color: #FFF;
+  background: rgba(0, 0, 0, 0.05);
+}

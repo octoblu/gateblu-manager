@@ -1,0 +1,7 @@
+.ChannelImage {
+  /*display: block;*/
+  height: 100%;
+  width: 100%;
+  max-width: 160px;
+  margin: 0 auto 24px;
+}

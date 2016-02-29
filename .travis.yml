@@ -1,0 +1,37 @@
+language: node_js
+sudo: false
+node_js:
+- '5'
+addons:
+  code_climate:
+    repo_token: Something
+env:
+  global:
+  - AWS_ACCESS_KEY_ID=AKIAJH2D5IPIRHYJT5IA
+  - secure: Bwmu/JXz7iT+k9/bNVJx2Y4oSkG6qhY+ogpAxiJl1fOsfGpZTWt3nlwerN90IaZgxk+HF91QcI/L+QzyJIPWrZjTaI1ndmzPuefj5gI/CwRH8lqwhxg+3WrYkOPtxSVTG4pmmuyIYxMERg0s5zTQTimm6WcJi4JrBSIfn5Gk/vf1yw8ZjxGuzthef8pfEO5Y4JUzqCBdheS4H1fsRapbMI4O6HD9j+ysw96kvXPu/q6cEb0UHGV1Qr3Jb6p7KwIy4x1bnh2haups8cDPPNagzWr3IfDVhfga1Avn4PXx+jOSsB7T3jlioWA4en+LFARexh4ZhMo+F+841WKgp/B3QvAzQfnXSBmxwdqgaF3LBRkJdlRHgN8kloNnOIbbfZdy0TIhIqjO4jftQQ72oHJW4lcFggHnMvzjnQcZ2wei5llOywcZCkusc0pjEUs7HnQxLDIemmLkZdVx4rc0OK1M+leoHJLi0A2wGxgi5kr2xvj1uJprJsUwOty64J7yf/jDjUsIZeyXHZdYAJBTBtmoOHJCi3gLFesI6Jx6z2XOBstEytaeydOiSc08tE3IEVcv0AAwHceHS+jdpEI+CGgHs1/81XiFUj91NiUHU3ye7zhRr83WkMEZcmgGgY6k/JnePZ9yekYPrcV3iMEoD7cbVjFQ0fNHH+ZkzLsgE9iyiQU=
+before_script:
+- npm install -g codeclimate-test-reporter
+- if [ ${TRAVIS_BRANCH} == master ]; then export NODE_ENV=production; else export NODE_ENV=staging; fi
+after_script:
+- codeclimate-test-reporter < coverage/lcov.info
+after_success:
+- npm install --global webpack
+- NODE_ENV=production webpack --config webpack.config.prod.js
+- mkdir build
+- cp -r index.html dist build/
+- for file in `find build -type f`; do gzip --best $file && mv $file.gz $file; done
+after_deploy:
+- "./deploy/invalidate-cloudfront.sh $AWS_ACCESS_KEY_ID $AWS_SECRET_ACCESS_KEY $TRAVIS_BRANCH"
+deploy:
+  provider: s3
+  access_key_id: AKIAJH2D5IPIRHYJT5IA
+  secret_access_key:
+    secure: c4AAOq1v934Bxlihi46UaXCahPvMLBRZs6QliWxBl0uU3JWnlKgmu7H6uW5BrGXvmNV5rjXe72byutSzbF/LaSuE4B6MgrqdGsDBNWd/gnYFf7zFhCB30FAu8qmQb1JPO8ulteLydzTSupJmqRwhykQjsRdiIQRJDETBcyxD8jnkopy6Di/UmWzMG2v4pGAlelBc0AfEM3AcuoTxUrcG/GEPT8IMHDV4286CVGndaV5qda3phpOSZybvNaF8uT/okut7IS/J68iXytLHbE1IVGGvfp4gT4eEi5EtwWbyeCOObCJU13atN3g+w+T65hQCWpPFVFNYh+ICYayN0RVSii5Tjy7vwBaqgUadJtVgxy2sqcx7UwRCuwAYsIbUZQvRQCuAkfN0mNLopf7sHzRjzuyROOlCO8zDM+C3carNBO3GN4Hce1c3kA7pIzcGDS02iu4fRXjxdJnXIoluJQFrICbke4LAPWx7rEDWOdXuYZcfGM9CR4EUcI5BfSpvmYjPuBm5zzEPK3jO5x4cbfZJQrD3rhr81e0qRspZHwk0GkI0c4U+1DZKVK/Oa220ISrfoOjyJXJHMFnRaqk7WNyZglubBLGoy6n6g1lB99HvyGmfC6ANhgJuu/40bYJcLqX5jo5BUQB37/6ONX32VK1ytOC2CnlKsWoujDpTRGGEEr0=
+  bucket: gateblu.octoblu.com
+  local_dir: build
+  skip_cleanup: true
+  endpoint: gateblu.octoblu.com.s3-website-us-west-2.amazonaws.com
+  detect_encoding: true
+  region: us-west-2
+  on:
+    tags: true
