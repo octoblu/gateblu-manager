@@ -1,11 +1,20 @@
 import {getMeshbluConfig} from './auth-service'
 
-export function getGateblus(callback){
+function getMeshbluHttp() {
   let meshbluConfig = getMeshbluConfig()
-  let meshbluHttp = new MeshbluHttp(meshbluConfig)
+  return new MeshbluHttp(meshbluConfig)
+}
+
+export function getGateblus(callback){
+  let meshbluHttp = getMeshbluHttp()
   let query = {
     type: 'device:gateblu',
     owner: meshbluConfig.uuid
   }
   meshbluHttp.devices(query, callback)
+}
+
+export function getDevice(uuid, callback){
+  let meshbluHttp = getMeshbluHttp()
+  meshbluHttp.device(uuid, callback)
 }

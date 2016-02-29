@@ -5,7 +5,7 @@ import {getGateblus} from '../services/devices-service'
 
 import Loading from '../components/loading'
 import ErrorMsg from '../components/error'
-import Gateblu from '../components/gateblu'
+import GatebluItem from '../components/gateblu-item'
 
 export default class ListGateblus extends Component {
   state = {
@@ -29,7 +29,7 @@ export default class ListGateblus extends Component {
     if (_.isEmpty(gateblus)) return <h3>No Gateblus</h3>
 
     const gatebluItems = _.map(gateblus, (device) => {
-      return <Gateblu device={device}></Gateblu>
+      return <GatebluItem device={device}></GatebluItem>
     })
 
     return <div>
