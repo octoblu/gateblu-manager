@@ -14,9 +14,7 @@ export default class Authenticated extends Component {
   }
 
   componentDidMount() {
-    console.log("here")
     fetchOctobluUser((error, octobluUser) => {
-      console.log("yes")
       if(error || !octobluUser) {
         return this.redirectToLogin()
       }
