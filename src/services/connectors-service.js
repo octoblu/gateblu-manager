@@ -15,3 +15,9 @@ export function getAvailableConnectors(callback){
       callback(null, _.filter(response.body, {category:'device'}))
     })
 }
+
+export function getConnector(type, callback){
+  getAvailableConnectors((error, connectors) => {
+    callback(error, _.find(connectors, {type}))
+  })
+}

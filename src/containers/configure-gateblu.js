@@ -6,38 +6,39 @@ import {getAvailableConnectors} from '../services/connectors-service'
 
 import Loading from '../components/loading'
 import ErrorMsg from '../components/error'
+import Button from '../components/button'
 
 export default class ConfigureGateblu extends Component {
   state = {
     loading: true,
     gateblu: null,
-    gatebluError: null,
-    connectorError: null
+    connectors: null,
+    error: null
   }
 
   componentDidMount() {
     this.setState({ loading: true })
     const {uuid} = this.props.params
     getDevice(uuid, (gatebluError, gateblu) => {
-      this.setState({gatebluError, gateblu, loading: false})
-    })
-    getAvailableConnectors((connectorError, connectors)=>{
-      this.setState({connectorError, connectors})
+      this.setState({gatebluError, gateblu})
+      getAvailableConnectors((connectorError, connectors)=>{
+        this.setState({connectorError, connectors, loading: false})
+      })
     })
   }
 
   render() {
-    const { loading, gateblu, gatebluError, connectorError, connectors } = this.state
+    const { loading, gateblu, error, connectors } = this.state
 
-    if (loading) return <Loading message="Loading Gateblu..."/>
-    if (gatebluError) return <ErrorMsg errorMessage={gatebluError.message} />
-    if (connectorError) return <ErrorMsg errorMessage={connectorError.message} />
+    if (loading) return <Loading message="Loading..."/>
+    if (error) return <ErrorMsg errorMessage={error.message} />
     if (_.isEmpty(gateblu)) return <h3>Missing Gateblu</h3>
 
     const {name} = gateblu
 
     let connectorItems = _.map(connectors, (connector) => {
-      return <li>{connector.name} ({connector.type})</li>
+      let path = `/gateblu/${gateblu.uuid}/add/${connector.type}`
+      return <li>{connector.name} ({connector.type}) <Button href={path} kind="approve">Add Node</Button></li>
     })
 
     return <div>

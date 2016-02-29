@@ -7,6 +7,7 @@ function getMeshbluHttp() {
 
 export function getGateblus(callback){
   let meshbluHttp = getMeshbluHttp()
+  let meshbluConfig = getMeshbluConfig()
   let query = {
     type: 'device:gateblu',
     owner: meshbluConfig.uuid
@@ -17,4 +18,15 @@ export function getGateblus(callback){
 export function getDevice(uuid, callback){
   let meshbluHttp = getMeshbluHttp()
   meshbluHttp.device(uuid, callback)
+}
+
+export function register(body, callback){
+  let meshbluHttp = getMeshbluHttp()
+  meshbluHttp.register(body, callback)
+}
+
+export function addDeviceToDevicesSet(uuid, deviceUuid, callback){
+  let meshbluHttp = getMeshbluHttp()
+  let query = {$addToSet: {devices: deviceUuid}}
+  meshbluHttp.updateDangerously(uuid, query, callback)
 }
