@@ -14,6 +14,12 @@ export default class Authenticated extends Component {
   }
 
   componentDidMount() {
+    if(process.env.NODE_ENV === 'production') {
+      _.delay(() =>{
+        window.location='https://gateblu.readme.io'
+      }, 1000)
+      return
+    }
     fetchOctobluUser((error, octobluUser) => {
       if(error || !octobluUser) {
         return this.redirectToLogin()
@@ -58,6 +64,11 @@ export default class Authenticated extends Component {
   render() {
     const {octobluUser} = this.state
     const {children} = this.props
+    if(process.env.NODE_ENV === 'production') {
+      return <div>
+        <h1>Redirecting to Gateblu Docs...</h1>
+      </div>
+    }
     if (!octobluUser) return <Loading message="Loading user..."/>
     return <div>{children}</div>
   }

@@ -9,12 +9,6 @@ import ConfigureGateblu from './containers/configure-gateblu'
 import AddNode from './containers/add-node'
 import {storeAuthentication} from './services/auth-service.js'
 
-if(process.env.NODE_ENV === 'production') {
-  _.delay(() = >{
-    window.location='https://gateblu.readme.io'
-  }, 1000)
-}
-
 render((
   <Router history={browserHistory}>
     <Route path="/authenticated" onEnter={storeAuthentication}/>
