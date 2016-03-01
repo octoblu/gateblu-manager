@@ -4,6 +4,7 @@ import React, { Component, PropTypes } from 'react'
 import {getDevice, register, addDeviceToDevicesSet} from '../services/devices-service'
 import {getMeshbluConfig} from '../services/auth-service'
 import {getConnector} from '../services/connectors-service'
+import {browserHistory} from 'react-router'
 
 import Loading from '../components/loading'
 import ErrorMsg from '../components/error'
@@ -40,7 +41,7 @@ export default class ConfigureGateblu extends Component {
 
     const gatebluUuid = gateblu.uuid
     const {type, name, logo} = connector
-    const connectorName = _.last(type.split(':'))
+    const connectorName = connector.connector
     const userUuid = getMeshbluConfig().uuid
     const deviceProperties = {
       name: name,
@@ -68,6 +69,9 @@ export default class ConfigureGateblu extends Component {
       this.setState({stateMessage: 'Adding Device to Gateblu'})
       addDeviceToDevicesSet(gatebluUuid, device.uuid, (error) => {
         this.setState({adding: false, done: true, stateMessage: 'Completed'})
+        _.delay(() => {
+          browserHistory.push(`/gateblu/${gatebluUuid}`)
+        }, 2000)
       })
     })
   }
