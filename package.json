@@ -1,6 +1,6 @@
 {
   "name": "gateblu-manager",
-  "version": "1.5.3",
+  "version": "1.5.4",
   "description": "",
   "main": "webpack.config.dev.js",
   "directories": {

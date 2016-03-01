@@ -27,10 +27,10 @@ deploy:
   access_key_id: AKIAJH2D5IPIRHYJT5IA
   secret_access_key:
     secure: "YaaiOVfxXFIGChuuNwqODft8MvUrkfMySLp0wYaNbdaNl4ePrJXoBg+8VPheRcqs6nCPKJ6mA/dUWF1D8WxwRsSSzzcuhTXeVKZph/HIDAp90JxA32UQi0tK9wSZOQ4hnq+zEyNgC0Bw7sQizixtEosozZmK5yZaRMMjLqFTCA+x6QLYmGgcai/lQ4z+pS6IKzM3VNUvOFeqBwFuvzDrBxcmP5r+6DZvtts6104nkPb5oXc6tWQ6yLnhD9TAzC2Kw8EUDOVAd7XOvgpB/zEFx2o7q8gL7Gt5HcRHa7OR0NFofXFhjbRyclAWT4hcQUv1wyjm7LiGePL/rVDHD1lspTFRmz9BmBPedmOcrHvqMCKQEyKCTPnBRSSHzHEKkiGfFmgCczdTLE1zUhs6m3yxwWwB4UzT8aIU0OnZ1CVgaT4UIZfY+1b6pIAktYi2OPLSldzYBjzesAVhGrsMvcr4tXXGFIvw0YfsxSCzHqerkcrbS07nS7lZvP+fWPelOmub/BeLBoD3AAb0OO6RRMClAquEEII6iKXMn2UWhl2qSAAzUN3s1SQKN6+PXcGDibzbeE22pf03X/bYmdkJS8G7xlDsrDUq+MhYgxGRWeXuYUA6/u+3u6XBFbB6gJFiFmeNFFf16I8gm/AT2z+E/DrxhAniVNfK0TJtqAZLXTJGTC8="
-  bucket: gateblu.octoblu.com
+  bucket: gateblu-octoblu-com
   local_dir: build
   skip_cleanup: true
-  endpoint: gateblu.octoblu.com.s3-website-us-west-2.amazonaws.com
+  endpoint: gateblu-octoblu-com.s3-website-us-west-2.amazonaws.com
   detect_encoding: true
   region: us-west-2
   on:
