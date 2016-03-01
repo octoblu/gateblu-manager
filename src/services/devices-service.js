@@ -30,3 +30,8 @@ export function addDeviceToDevicesSet(uuid, deviceUuid, callback){
   let query = {$addToSet: {devices: deviceUuid}}
   meshbluHttp.updateDangerously(uuid, query, callback)
 }
+
+export function generateAndStoreToken(uuid, callback){
+  let meshbluHttp = getMeshbluHttp()
+  meshbluHttp.generateAndStoreToken(uuid, {tag: 'gateblu-manager'}, callback)
+}

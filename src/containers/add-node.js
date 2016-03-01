@@ -70,7 +70,7 @@ export default class ConfigureGateblu extends Component {
       addDeviceToDevicesSet(gatebluUuid, device.uuid, (error) => {
         this.setState({adding: false, done: true, stateMessage: 'Completed'})
         _.delay(() => {
-          browserHistory.push(`/gateblu/${gatebluUuid}`)
+          browserHistory.push(`/device/${device.uuid}`)
         }, 2000)
       })
     })

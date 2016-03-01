@@ -17,7 +17,7 @@ configure_awscli(){
 create_invalidation(){
   local git_tag=$1
   aws cloudfront create-invalidation \
-    --distribution-id EGJ1G9RNXFAPE \
+    --distribution-id E8R5DJPWNNJ14 \
     --invalidation-batch "{\"Paths\": {\"Quantity\": 3, \"Items\": [\"/index.html\", \"/dist/bundle.js\", \"/dist/bundle.js.map\"]}, \"CallerReference\": \"travis-$git_tag\"}"
 }
 
