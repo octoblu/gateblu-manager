@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import React from 'react'
 import { render } from 'react-dom'
 import { Router, IndexRoute, Route, browserHistory } from 'react-router'
@@ -9,7 +10,9 @@ import AddNode from './containers/add-node'
 import {storeAuthentication} from './services/auth-service.js'
 
 if(process.env.NODE_ENV === 'production') {
-  window.location='https://gateblu.readme.io'
+  _.delay(() = >{
+    window.location='https://gateblu.readme.io'
+  }, 1000)
 }
 
 render((
