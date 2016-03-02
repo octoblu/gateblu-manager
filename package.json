@@ -15,7 +15,8 @@
     "react-router": "^2.0.0",
     "superagent": "^1.8.0-beta.2",
     "url": "^0.11.0",
-    "zooid-meshblu-device-editor": "^2.0.0"
+    "zooid-meshblu-device-editor": "^2.0.0",
+    "zooid-ui": "^1.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.3",
