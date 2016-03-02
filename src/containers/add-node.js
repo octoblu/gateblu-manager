@@ -1,7 +1,7 @@
 import _ from 'lodash'
 
 import React, { Component, PropTypes } from 'react'
-import {getDevice, register, addDeviceToDevicesSet} from '../services/devices-service'
+import DevicesService from '../services/devices-service'
 import {getMeshbluConfig} from '../services/auth-service'
 import {getConnector} from '../services/connectors-service'
 import {browserHistory} from 'react-router'
@@ -24,7 +24,8 @@ export default class ConfigureGateblu extends Component {
   componentDidMount() {
     this.setState({ loading: true })
     const {uuid, type} = this.props.params
-    getDevice(uuid, (error, gateblu) => {
+    this.devicesService = new DevicesService()
+    this.devicesService.getDevice(uuid, (error, gateblu) => {
       this.setState({error, gateblu})
       getConnector(type, (error, connector) =>{
         this.setState({error, connector, loading: false})
@@ -65,13 +66,11 @@ export default class ConfigureGateblu extends Component {
     }
     console.log("deviceProperties", deviceProperties)
     this.setState({adding: true, stateMessage: 'Registering Device'})
-    register(deviceProperties, (error, device) => {
+    this.devicesService.register(deviceProperties, (error, device) => {
       this.setState({stateMessage: 'Adding Device to Gateblu'})
-      addDeviceToDevicesSet(gatebluUuid, device.uuid, (error) => {
+      this.devicesService.addDeviceToDevicesSet(gatebluUuid, device.uuid, (error) => {
         this.setState({adding: false, done: true, stateMessage: 'Completed'})
-        _.delay(() => {
-          browserHistory.push(`/device/${device.uuid}`)
-        }, 2000)
+        browserHistory.push(`/device/${device.uuid}`)
       })
     })
   }

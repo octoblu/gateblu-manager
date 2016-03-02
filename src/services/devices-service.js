@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import {getMeshbluConfig} from './auth-service'
 
 function getMeshbluHttp() {
@@ -5,33 +6,25 @@ function getMeshbluHttp() {
   return new MeshbluHttp(meshbluConfig)
 }
 
-export function getGateblus(callback){
-  let meshbluHttp = getMeshbluHttp()
-  let meshbluConfig = getMeshbluConfig()
-  let query = {
-    type: 'device:gateblu',
-    owner: meshbluConfig.uuid
+export default class DevicesService {
+  constructor(meshbluConfig) {
+    meshbluConfig = _.defaults(meshbluConfig, getMeshbluConfig())
+    this.meshbluHttp = new MeshbluHttp(meshbluConfig)
   }
-  meshbluHttp.devices(query, callback)
-}
-
-export function getDevice(uuid, callback){
-  let meshbluHttp = getMeshbluHttp()
-  meshbluHttp.device(uuid, callback)
-}
-
-export function register(body, callback){
-  let meshbluHttp = getMeshbluHttp()
-  meshbluHttp.register(body, callback)
-}
-
-export function addDeviceToDevicesSet(uuid, deviceUuid, callback){
-  let meshbluHttp = getMeshbluHttp()
-  let query = {$addToSet: {devices: deviceUuid}}
-  meshbluHttp.updateDangerously(uuid, query, callback)
-}
-
-export function generateAndStoreToken(uuid, callback){
-  let meshbluHttp = getMeshbluHttp()
-  meshbluHttp.generateAndStoreToken(uuid, {tag: 'gateblu-manager'}, callback)
+  getDevices(query, callback) {
+    this.meshbluHttp.devices(query, callback)
+  }
+  getDevice(uuid, callback){
+    this.meshbluHttp.device(uuid, callback)
+  }
+  register(properties, callback){
+    this.meshbluHttp.register(properties, callback)
+  }
+  update(uuid, properties, callback){
+    this.meshbluHttp.update(uuid, properties, callback)
+  }
+  addDeviceToDevicesSet(uuid, deviceUuid, callback){
+    let query = {$addToSet: {devices: deviceUuid}}
+    this.meshbluHttp.updateDangerously(uuid, query, callback)
+  }
 }

@@ -1,7 +1,8 @@
 import _ from 'lodash'
 
 import React, { Component, PropTypes } from 'react'
-import {getGateblus} from '../services/devices-service'
+import DevicesService from '../services/devices-service'
+import {getMeshbluConfig} from '../services/auth-service'
 
 import Loading from '../components/loading'
 import ErrorMsg from '../components/error'
@@ -16,7 +17,9 @@ export default class ListGateblus extends Component {
 
   componentDidMount() {
     this.setState({ loading: true })
-    getGateblus((error, gateblus) => {
+    this.devicesService = new DevicesService()
+    const {uuid} = getMeshbluConfig()
+    this.devicesService.getDevices({type:'device:gateblu', owner: uuid}, (error, gateblus) => {
       this.setState({error, gateblus, loading: false})
     })
   }

@@ -1,7 +1,7 @@
 import _ from 'lodash'
 
 import React, { Component, PropTypes } from 'react'
-import {getDevice} from '../services/devices-service'
+import DevicesService from '../services/devices-service'
 import {getAvailableConnectors} from '../services/connectors-service'
 
 import Loading from '../components/loading'
@@ -19,10 +19,11 @@ export default class ConfigureGateblu extends Component {
   componentDidMount() {
     this.setState({ loading: true })
     const {uuid} = this.props.params
-    getDevice(uuid, (gatebluError, gateblu) => {
-      this.setState({gatebluError, gateblu})
-      getAvailableConnectors((connectorError, connectors)=>{
-        this.setState({connectorError, connectors, loading: false})
+    this.devicesService = new DevicesService()
+    this.devicesService.getDevice(uuid, (error, gateblu) => {
+      this.setState({error, gateblu})
+      getAvailableConnectors((error, connectors)=>{
+        this.setState({error, connectors, loading: false})
       })
     })
   }

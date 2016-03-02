@@ -1,7 +1,7 @@
 import _ from 'lodash'
 
 import React, { Component, PropTypes } from 'react'
-import {getDevice} from '../services/devices-service'
+import DevicesService from '../services/devices-service'
 import {getMeshbluConfig} from '../services/auth-service'
 import {getConnector} from '../services/connectors-service'
 import {browserHistory} from 'react-router'
@@ -21,7 +21,8 @@ export default class ConfigureGateblu extends Component {
   componentDidMount() {
     this.setState({ loading: true })
     const {uuid} = this.props.params
-    getDevice(uuid, (error, device) => {
+    this.devicesService = new DevicesService()
+    this.devicesService.getDevice(uuid, (error, device) => {
       if(error) return this.setState({error, loading: false})
       this.setState({error, device, loading: false})
     })
@@ -36,7 +37,7 @@ export default class ConfigureGateblu extends Component {
 
     const {name, uuid} = device
     const meshbluConfig = getMeshbluConfig()
-    
+
     return <div>
       <h2>{name} : Device</h2>
       <MeshbluDeviceEditor
