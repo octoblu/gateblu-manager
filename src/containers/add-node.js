@@ -63,7 +63,6 @@ export default class ConfigureGateblu extends Component {
       receiveAsWhitelist: [gatebluUuid],
       owner: userUuid
     }
-    console.log("deviceProperties", deviceProperties)
     this.setState({adding: true, stateMessage: 'Registering Device'})
     this.devicesService.register(deviceProperties, (error, device) => {
       this.setState({stateMessage: 'Adding Device to Gateblu'})
