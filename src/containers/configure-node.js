@@ -1,4 +1,4 @@
-import _ from 'lodash'
+  import _ from 'lodash'
 
 import React, { Component, PropTypes } from 'react'
 import DevicesService from '../services/devices-service'

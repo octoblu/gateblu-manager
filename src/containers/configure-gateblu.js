@@ -16,6 +16,7 @@ export default class ConfigureGateblu extends Component {
   state = {
     loading: true,
     gateblu: null,
+    devices: null,
     connectors: null,
     error: null
   }
@@ -25,15 +26,19 @@ export default class ConfigureGateblu extends Component {
     const {uuid} = this.props.params
     this.devicesService = new DevicesService()
     this.devicesService.getDevice(uuid, (error, gateblu) => {
-      this.setState({error, gateblu})
+      if(error) return this.setState({error, gateblu, loading: false})
+
       getAvailableConnectors((error, connectors)=>{
-        this.setState({error, connectors, loading: false})
+        this.setState({error, connectors})
+      });
+      this.devicesService.getDevices({uuid: {'$in': gateblu.devices}}, (error, devices) => {
+        this.setState({error, devices, gateblu, loading: false})
       })
     })
   }
 
   render() {
-    const { loading, gateblu, error, connectors } = this.state
+    const { loading, gateblu, error, connectors, devices } = this.state
 
     if (loading) return <Loading message="Loading..."/>
     if (error) return <ErrorMsg errorMessage={error.message} />
@@ -53,10 +58,27 @@ export default class ConfigureGateblu extends Component {
       </ListItem>
     })
 
+    let deviceItems = _.map(devices, (device) => {
+      const path = `/device/${device.uuid}`
+      let runningText = '[not running]'
+      if(device.gateblu.running) runningText = '[running]'
+
+      return <ListItem>
+        {device.name} ({device.gateblu.connector})
+        <Button href={path} kind="approve" size="small">Configure Node</Button>
+      </ListItem>
+    })
+
     return <Page>
       <Breadcrumb fragments={breadcumbFragments}></Breadcrumb>
+      <h3>Installed Connectors</h3>
+      <div>
+        <List>{deviceItems}</List>
+      </div>
       <h3>Available Connectors</h3>
-      <List>{connectorItems}</List>
+      <div>
+        <List>{connectorItems}</List>
+      </div>
     </Page>
   }
 }
