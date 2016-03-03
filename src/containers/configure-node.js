@@ -1,4 +1,4 @@
-  import _ from 'lodash'
+import _ from 'lodash'
 
 import React, { Component, PropTypes } from 'react'
 import DevicesService from '../services/devices-service'
@@ -18,13 +18,22 @@ export default class ConfigureGateblu extends Component {
     error: null
   }
 
+
   componentDidMount() {
     this.setState({ loading: true })
-    const {uuid} = this.props.params
     this.devicesService = new DevicesService()
+    this.numberOfTries = 0
+    this.getDeviceUntilOptions()
+  }
+
+  getDeviceUntilOptions = () => {
+    this.numberOfTries++
+    const {uuid} = this.props.params
     this.devicesService.getDevice(uuid, (error, device) => {
-      if(error) return this.setState({error, loading: false})
-      this.setState({error, device, loading: false})
+      if(error) return this.setState({error, device, loading: false})
+      if(device.optionsSchema) return this.setState({error, device, loading: false})
+      if(this.numberOfTries > 60) return this.setState({error: new Error("Device Schema Timeout"), loading: false})
+      _.delay(this.getDeviceUntilOptions, 1000)
     })
   }
 
