@@ -1,12 +1,16 @@
 import _ from 'lodash'
-
 import React, { Component, PropTypes } from 'react'
+import { Link } from 'react-router'
+
 import DevicesService from '../services/devices-service'
-import {getAvailableConnectors} from '../services/connectors-service'
+import { getAvailableConnectors } from '../services/connectors-service'
 
 import Loading from '../components/loading'
 import ErrorMsg from '../components/error'
-import Button from '../components/button'
+
+import { Breadcrumb, Button } from 'zooid-ui'
+import { List, ListItem } from 'zooid-ui'
+import { Page, PageHeader, PageTitle } from 'zooid-ui'
 
 export default class ConfigureGateblu extends Component {
   state = {
@@ -35,19 +39,24 @@ export default class ConfigureGateblu extends Component {
     if (error) return <ErrorMsg errorMessage={error.message} />
     if (_.isEmpty(gateblu)) return <h3>Missing Gateblu</h3>
 
-    const {name} = gateblu
+    const breadcumbFragments = [
+      { component: <Link to="/">Gateblus</Link> },
+      { label: gateblu.name }
+    ]
 
     let connectorItems = _.map(connectors, (connector) => {
-      let path = `/gateblu/${gateblu.uuid}/add/${connector.type}`
-      return <li>{connector.name} ({connector.type}) <Button href={path} kind="approve">Add Node</Button></li>
+      const path = `/gateblu/${gateblu.uuid}/add/${connector.type}`
+
+      return <ListItem>
+        {connector.name} ({connector.type})
+        <Button href={path} kind="approve">Add Node</Button>
+      </ListItem>
     })
 
-    return <div>
-      <h2>{name} : Gateblu</h2>
+    return <Page>
+      <Breadcrumb fragments={breadcumbFragments}></Breadcrumb>
       <h3>Available Connectors</h3>
-      <ul>
-        {connectorItems}
-      </ul>
-    </div>
+      <List>{connectorItems}</List>
+    </Page>
   }
 }

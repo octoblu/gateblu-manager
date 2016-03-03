@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import url from 'url'
-import Button from '../components/button'
+import Button from 'zooid-ui'
 
 import {CLIENT_ID, PROVIDER_URI} from '../constants/oauth'
 import Loading from '../components/loading'

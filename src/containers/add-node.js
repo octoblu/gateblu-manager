@@ -8,7 +8,7 @@ import {browserHistory} from 'react-router'
 
 import Loading from '../components/loading'
 import ErrorMsg from '../components/error'
-import Button from '../components/button'
+import Button from 'zooid-ui'
 
 export default class ConfigureGateblu extends Component {
   state = {

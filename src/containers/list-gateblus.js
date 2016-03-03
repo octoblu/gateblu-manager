@@ -1,8 +1,9 @@
 import _ from 'lodash'
-
 import React, { Component, PropTypes } from 'react'
+import { Page, PageHeader, PageTitle } from 'zooid-ui'
+
 import DevicesService from '../services/devices-service'
-import {getMeshbluConfig} from '../services/auth-service'
+import { getMeshbluConfig } from '../services/auth-service'
 
 import Loading from '../components/loading'
 import ErrorMsg from '../components/error'
@@ -35,9 +36,11 @@ export default class ListGateblus extends Component {
       return <GatebluItem device={device}></GatebluItem>
     })
 
-    return <div>
-      <h2>Gateblus</h2>
+    return <Page>
+      <PageHeader>
+        <PageTitle>Gateblus</PageTitle>
+      </PageHeader>
       {gatebluItems}
-    </div>
+    </Page>
   }
 }
