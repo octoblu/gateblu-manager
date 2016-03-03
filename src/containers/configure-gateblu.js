@@ -49,7 +49,7 @@ export default class ConfigureGateblu extends Component {
 
       return <ListItem>
         {connector.name} ({connector.type})
-        <Button href={path} kind="approve">Add Node</Button>
+        <Button href={path} kind="approve" size="small">Add Node</Button>
       </ListItem>
     })
 
