@@ -1,6 +1,7 @@
 import './index.css';
 import React, { PropTypes } from 'react';
 import {browserHistory} from 'react-router'
+import {Button} from 'zooid-ui'
 import classNames from 'classnames';
 
 const GatebluItem = ({ device, children, className }) => {
@@ -9,14 +10,20 @@ const GatebluItem = ({ device, children, className }) => {
     className
   );
 
-  const {name, uuid} = device
+  let {name, uuid, online, gateblu} = device
 
   function goToGateblu() {
     browserHistory.push(`/gateblu/${uuid}`)
   }
 
-  return <div className={componentClass} onClick={goToGateblu}>
-    <h3 className="GatebluItem-name">{name}</h3>
+  let onlineText = 'offline'
+  if(online) onlineText = 'online'
+  let runningText = 'stopped'
+  if(gateblu && gateblu.running) runningText = 'running'
+  if(!name) name = 'Gateblu'
+
+  return <div className={componentClass} >
+    <h3 className="GatebluItem-name">{name} <small>[{onlineText} and {runningText}]</small> <Button onClick={goToGateblu}>Configure Gateblu</Button></h3>
   </div>
 };
 

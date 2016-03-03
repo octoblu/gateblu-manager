@@ -31,6 +31,7 @@ export default class ConfigureGateblu extends Component {
       getAvailableConnectors((error, connectors)=>{
         this.setState({error, connectors})
       });
+      if(_.isEmpty(gateblu.devices)) return this.setState({gateblu, loading: false})
       this.devicesService.getDevices({uuid: {'$in': gateblu.devices}}, (error, devices) => {
         this.setState({error, devices, gateblu, loading: false})
       })
@@ -61,10 +62,11 @@ export default class ConfigureGateblu extends Component {
     let deviceItems = _.map(devices, (device) => {
       const path = `/device/${device.uuid}`
       let runningText = '[not running]'
-      if(device.gateblu.running) runningText = '[running]'
+      let deviceGateblu = device.gateblu || {}
+      if(deviceGateblu.running) runningText = '[running]'
 
       return <ListItem>
-        {device.name} ({device.gateblu.connector})
+        {device.name} ({deviceGateblu.connector})
         <Button href={path} kind="approve" size="small">Configure Node</Button>
       </ListItem>
     })

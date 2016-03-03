@@ -9,7 +9,7 @@ import {browserHistory} from 'react-router'
 import MeshbluDeviceEditor from 'zooid-meshblu-device-editor'
 import Loading from '../components/loading'
 import ErrorMsg from '../components/error'
-import Button from 'zooid-ui'
+import {Button} from 'zooid-ui'
 
 export default class ConfigureGateblu extends Component {
   state = {
