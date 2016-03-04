@@ -23,6 +23,7 @@ export default class ConfigureGateblu extends Component {
     this.devicesService = new DevicesService()
     this.numberOfTries = 0
     this.getDeviceUntilOptions()
+    this.onChange = _.debounce(this.onChangeNow, 1000, {leading: true})
   }
 
   getDeviceUntilOptions = () => {
@@ -36,8 +37,10 @@ export default class ConfigureGateblu extends Component {
     })
   }
 
-  onChange = (properties) => {
-    const {uuid} = this.state.device
+  onChangeNow = (properties) => {
+    let {device} = this.state
+    const {uuid} = device
+    this.setState({device:_.extend(device, properties)})
     this.devicesService.update(uuid, properties, (error) => {})
   }
 

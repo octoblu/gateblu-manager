@@ -26,14 +26,20 @@ export default class ConfigureGateblu extends Component {
 
   componentDidMount() {
     this.setState({ loading: true })
-    const {uuid} = this.props.params
+    this.onChange = _.debounce(this.onChangeNow, 1000, {leading: true})
     this.devicesService = new DevicesService()
+    this.getDevices()
+  }
+
+  getDevices = () => {
+    const {uuid} = this.props.params
     this.devicesService.getDevice(uuid, (error, gateblu) => {
       if(error) return this.setState({error, gateblu, loading: false})
 
       getAvailableConnectors((error, connectors)=>{
         this.setState({error, connectors})
       });
+
       if(_.isEmpty(gateblu.devices)) return this.setState({gateblu, loading: false})
       let uuids = gateblu.devices
       if(_.isPlainObject(_.first(uuids))) {
@@ -45,7 +51,7 @@ export default class ConfigureGateblu extends Component {
     })
   }
 
-  onChange = (properties) => {
+  onChangeNow = (properties) => {
     let {gateblu} = this.state
     const {uuid} = gateblu
     this.setState({gateblu:_.extend(gateblu, properties)})
