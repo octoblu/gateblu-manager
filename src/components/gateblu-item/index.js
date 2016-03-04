@@ -1,7 +1,7 @@
 import './index.css';
 import React, { PropTypes } from 'react';
 import {browserHistory} from 'react-router'
-import {Button} from 'zooid-ui'
+import {Button, Card, OctobluIcon} from 'zooid-ui'
 import classNames from 'classnames';
 
 const GatebluItem = ({ device, children, className }) => {
@@ -10,21 +10,29 @@ const GatebluItem = ({ device, children, className }) => {
     className
   );
 
-  let {name, uuid, online, gateblu} = device
+  let {name, uuid, online, gateblu, type} = device
 
   function goToGateblu() {
-    browserHistory.push(`/gateblu/${uuid}`)
+    browserHistory.push(``)
   }
 
-  let onlineText = 'offline'
-  if(online) onlineText = 'online'
-  let runningText = 'stopped'
-  if(gateblu && gateblu.running) runningText = 'running'
+  let pathToGateblu = `/gateblu/${uuid}`
+
+  let runningText = 'offline'
+  if(gateblu && gateblu.running) runningText = 'online'
   if(!name) name = 'Gateblu'
 
-  return <div className={componentClass} >
-    <h3 className="GatebluItem-name">{name} <small>[{onlineText} and {runningText}]</small> <Button onClick={goToGateblu}>Configure Gateblu</Button></h3>
-  </div>
+  return <Card className={componentClass}>
+    <aside><OctobluIcon type={type} className="GatebluItem-icon"></OctobluIcon></aside>
+    <main className="GatebluItem-main">
+      <div className="GatebluItem-body">
+        <h3 className="GatebluItem-name">{name} <small className="GatebluItem-status">{runningText}</small></h3>
+      </div>
+      <footer className="GatebluItem-footer">
+        <a href={pathToGateblu} className="GatebluItem-button">Configure Gateblu</a>
+      </footer>
+    </main>
+  </Card>
 };
 
 GatebluItem.propTypes = {
