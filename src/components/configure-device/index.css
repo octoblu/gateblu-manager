@@ -1,0 +1,25 @@
+.ConfigureDevice-form {
+  display: flex;
+  flex-direction: column;
+}
+.ConfigureDevice-section {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.ConfigureDevice-label {
+  font-size: 20px;
+  font-weight: bold;
+}
+.ConfigureDevice-name {
+  height: 50px;
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.ConfigureDevice-button {
+  width: 120px;
+}

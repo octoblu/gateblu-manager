@@ -2,6 +2,7 @@ import _ from 'lodash'
 import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router'
 
+import {getMeshbluConfig} from '../services/auth-service'
 import DevicesService from '../services/devices-service'
 import { getAvailableConnectors } from '../services/connectors-service'
 
@@ -11,6 +12,8 @@ import ErrorMsg from '../components/error'
 import { Breadcrumb, Button } from 'zooid-ui'
 import { List, ListItem } from 'zooid-ui'
 import { Page, PageHeader, PageTitle } from 'zooid-ui'
+
+import ConfigureDevice from '../components/configure-device'
 
 export default class ConfigureGateblu extends Component {
   state = {
@@ -40,6 +43,13 @@ export default class ConfigureGateblu extends Component {
         this.setState({error, devices, gateblu, loading: false})
       })
     })
+  }
+
+  onChange = (properties) => {
+    let {gateblu} = this.state
+    const {uuid} = gateblu
+    this.setState({gateblu:_.extend(gateblu, properties)})
+    this.devicesService.update(uuid, properties, (error) => {})
   }
 
   render() {
@@ -77,6 +87,10 @@ export default class ConfigureGateblu extends Component {
 
     return <Page>
       <Breadcrumb fragments={breadcumbFragments}></Breadcrumb>
+      <ConfigureDevice
+        onChange={this.onChange}
+        device={gateblu}
+      ></ConfigureDevice>
       <h3>Installed Connectors</h3>
       <div>
         <List>{deviceItems}</List>
