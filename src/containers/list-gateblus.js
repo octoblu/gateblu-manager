@@ -20,7 +20,7 @@ export default class ListGateblus extends Component {
     this.setState({ loading: true })
     this.devicesService = new DevicesService()
     const {uuid} = getMeshbluConfig()
-    this.devicesService.getDevices({type:'device:gateblu', owner: uuid}, (error, gateblus) => {
+    this.devicesService.getDevices({type:'device:gateblu', discoverWhitelist: {$in: [uuid]}}, (error, gateblus) => {
       this.setState({error, gateblus, loading: false})
     })
   }
@@ -34,7 +34,7 @@ export default class ListGateblus extends Component {
 
     return <Page>
       <PageHeader>
-        <PageTitle>Gateblus</PageTitle>
+        <PageTitle>My Gateblus</PageTitle>
       </PageHeader>
       <GatebluList devices={gateblus}></GatebluList>
     </Page>

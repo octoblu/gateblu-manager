@@ -32,7 +32,11 @@ export default class ConfigureGateblu extends Component {
         this.setState({error, connectors})
       });
       if(_.isEmpty(gateblu.devices)) return this.setState({gateblu, loading: false})
-      this.devicesService.getDevices({uuid: {'$in': gateblu.devices}}, (error, devices) => {
+      let uuids = gateblu.devices
+      if(_.isPlainObject(_.first(uuids))) {
+        uuids = _.map(gateblu.devices, 'uuid')
+      }
+      this.devicesService.getDevices({uuid: {'$in': uuids}}, (error, devices) => {
         this.setState({error, devices, gateblu, loading: false})
       })
     })
