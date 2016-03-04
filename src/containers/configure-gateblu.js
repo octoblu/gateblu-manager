@@ -10,10 +10,11 @@ import Loading from '../components/loading'
 import ErrorMsg from '../components/error'
 
 import { Breadcrumb, Button } from 'zooid-ui'
-import { List, ListItem } from 'zooid-ui'
-import { Page, PageHeader, PageTitle } from 'zooid-ui'
+import { Page, PageHeader, PageTitle, Nav } from 'zooid-ui'
 
 import ConfigureDevice from '../components/configure-device'
+import InstalledDevices from '../components/Installed-devices'
+import Connectors from '../components/connectors'
 
 export default class ConfigureGateblu extends Component {
   state = {
@@ -21,7 +22,8 @@ export default class ConfigureGateblu extends Component {
     gateblu: null,
     devices: null,
     connectors: null,
-    error: null
+    error: null,
+    tabSelected: 'Installed'
   }
 
   componentDidMount() {
@@ -59,7 +61,7 @@ export default class ConfigureGateblu extends Component {
   }
 
   render() {
-    const { loading, gateblu, error, connectors, devices } = this.state
+    const { loading, gateblu, error, connectors, devices, tabSelected } = this.state
 
     if (loading) return <Loading message="Loading..."/>
     if (error) return <ErrorMsg errorMessage={error.message} />
@@ -70,25 +72,24 @@ export default class ConfigureGateblu extends Component {
       { label: gateblu.name }
     ]
 
-    let connectorItems = _.map(connectors, (connector) => {
-      const path = `/gateblu/${gateblu.uuid}/add/${connector.type}`
+    let changeTab = (tabSelected) => {
+      return () => {
+        this.setState({tabSelected})
+      }
+    }
 
-      return <ListItem>
-        {connector.name} ({connector.type})
-        <Button href={path} kind="approve" size="small">Add Node</Button>
-      </ListItem>
-    })
+    let selectedTab
+    if(tabSelected == 'Installed') {
+      selectedTab = <InstalledDevices devices={devices}></InstalledDevices>
+    }else if(tabSelected == 'Available'){
+      selectedTab = <Connectors connectors={connectors}></Connectors>
+    }
 
-    let deviceItems = _.map(devices, (device) => {
-      const path = `/device/${device.uuid}`
-      let runningText = '[not running]'
-      let deviceGateblu = device.gateblu || {}
-      if(deviceGateblu.running) runningText = '[running]'
-
-      return <ListItem>
-        {device.name} ({deviceGateblu.connector})
-        <Button href={path} kind="approve" size="small">Configure Node</Button>
-      </ListItem>
+    let tabs = _.map(['Installed', 'Available'], (tab) => {
+      let isSelected = ''
+      if(tabSelected == tab) isSelected = 'Nav-item--active'
+      const tabClasses = 'Nav-item ' + isSelected
+      return <a className={tabClasses} onClick={changeTab(tab)}>{tab}</a>
     })
 
     return <Page>
@@ -97,14 +98,10 @@ export default class ConfigureGateblu extends Component {
         onChange={this.onChange}
         device={gateblu}
       ></ConfigureDevice>
-      <h3>Installed Connectors</h3>
-      <div>
-        <List>{deviceItems}</List>
-      </div>
-      <h3>Available Connectors</h3>
-      <div>
-        <List>{connectorItems}</List>
-      </div>
+      <Nav>
+        {tabs}
+      </Nav>
+      {selectedTab}
     </Page>
   }
 }
