@@ -6,10 +6,15 @@ import {getMeshbluConfig} from '../services/auth-service'
 import DevicesService from '../services/devices-service'
 import { getAvailableConnectors } from '../services/connectors-service'
 
-import {Spinner, ErrorState} from 'zooid-ui'
-
-import { Breadcrumb, Button } from 'zooid-ui'
-import { Page, PageHeader, PageTitle } from 'zooid-ui'
+import {
+  Breadcrumb,
+  Button,
+  Spinner,
+  ErrorState,
+  Page,
+  PageHeader,
+  PageTitle
+} from 'zooid-ui'
 
 import Connectors from '../components/connectors'
 
@@ -43,13 +48,16 @@ export default class ConfigureGateblu extends Component {
     if (_.isEmpty(gateblu)) return <ErrorState title="Missing Gateblu" />
 
     const breadcumbFragments = [
-      { component: <Link to="/">Gateblus</Link> },
+      { component: <Link to="/">My Gateblus</Link> },
       { component: <Link to={`/gateblu/${gateblu.uuid}`}>{gateblu.name}</Link> },
       { label: 'Available Connectors' }
     ]
 
     return <Page>
       <Breadcrumb fragments={breadcumbFragments}></Breadcrumb>
+      <PageHeader>
+        <PageTitle>Available Connectors</PageTitle>
+      </PageHeader>
       <Connectors connectors={connectors} gatebluUuid={gateblu.uuid}></Connectors>
     </Page>
   }

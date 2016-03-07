@@ -6,9 +6,16 @@ import {getMeshbluConfig} from '../services/auth-service'
 import DevicesService from '../services/devices-service'
 import { getAvailableConnectors } from '../services/connectors-service'
 
-import {Spinner, ErrorState} from 'zooid-ui'
-import { Breadcrumb, Button, Icon } from 'zooid-ui'
-import { Page, PageHeader, PageTitle, Nav } from 'zooid-ui'
+import {
+  Spinner,
+  ErrorState,
+  Breadcrumb,
+  Button,
+  Icon,
+  Page,
+  PageHeader,
+  PageTitle
+} from 'zooid-ui'
 
 import DeviceEditor from '../components/device-editor'
 import InstalledDevices from '../components/installed-devices'
@@ -86,7 +93,7 @@ export default class ConfigureGateblu extends Component {
     if (_.isEmpty(gateblu)) return <ErrorState title="Missing Gateblu"></ErrorState>
 
     const breadcumbFragments = [
-      { component: <Link to="/">Gateblus</Link> },
+      { component: <Link to="/">My Gateblus</Link> },
       { label: gateblu.name }
     ]
 
@@ -102,6 +109,9 @@ export default class ConfigureGateblu extends Component {
 
     return <Page>
       <Breadcrumb fragments={breadcumbFragments}></Breadcrumb>
+      <PageHeader>
+        <PageTitle>Configure Gateblu</PageTitle>
+      </PageHeader>
       <div className="ConfigureGateblu--actions">
         <Button className="ConfigureGateblu--action" kind={stopButtonType} onClick={this.stopGateblu}><Icon name="MdStop"/></Button>
         <Button className="ConfigureGateblu--action" kind={playButtonType} onClick={this.startGateblu}><Icon name="MdPlayArrow"/></Button>

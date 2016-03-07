@@ -45,8 +45,21 @@ export default class DevicesService {
       configureWhitelist: [gatebluUuid, userUuid],
       discoverWhitelist: [gatebluUuid, userUuid],
       sendAsWhitelist: [gatebluUuid],
-      receiveAsWhitelist: [gatebluUuid],
-      owner: userUuid
+      receiveAsWhitelist: [gatebluUuid]
+    }
+  }
+  getGatebluProperties({ userUuid, name }) {
+    return {
+      name: name || 'My Gateblu',
+      type: 'device:gateblu',
+      devices: [],
+      discoverWhitelist: [userUuid],
+      configureWhitelist: [userUuid],
+      sendWhitelist: [userUuid],
+      receiveWhitelist: [userUuid],
+      gateblu: {
+        running: true
+      }
     }
   }
 }

@@ -14,7 +14,7 @@ const InstalledDevices = ({ devices, gatebluUuid, children, className }) => {
   let items = _.map(devices, (device) => {
     const {name, uuid, type} = device
     let runningText = 'offline'
-    if(device && device.running) runningText = 'online'
+    if(device.gateblu && device.gateblu.running) runningText = 'online'
 
     return <Card key={device.uuid} className="InstalledDevice">
       <aside><DeviceIcon type={type} className="InstalledDevice-icon"></DeviceIcon></aside>

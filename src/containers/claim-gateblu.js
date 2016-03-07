@@ -5,7 +5,12 @@ import DevicesService from '../services/devices-service'
 import {getMeshbluConfig} from '../services/auth-service'
 
 import {browserHistory} from 'react-router'
-import {Spinner, ErrorState, Button} from 'zooid-ui'
+import {
+  Page,
+  Spinner,
+  ErrorState,
+  EmptyState
+} from 'zooid-ui'
 
 export default class ClaimGateblu extends Component {
   state = {
@@ -25,23 +30,11 @@ export default class ClaimGateblu extends Component {
   }
 
   claimGateblu = () => {
+    this.setState({loading: true})
     const {uuid} = this.props.params
     const {name} = this.state.gateblu
-    this.setState({loading: true})
     const userUuid = getMeshbluConfig().uuid
-    const properties = {
-      name: name || 'My Gateblu',
-      type: 'device:gateblu',
-      devices: [],
-      discoverWhitelist: [userUuid],
-      configureWhitelist: [userUuid],
-      sendWhitelist: [userUuid],
-      receiveWhitelist: [userUuid],
-      owner: userUuid,
-      gateblu: {
-        running: true
-      }
-    }
+    const properties = this.devicesService.getGatebluProperties({userUuid, name})
     this.devicesService.update(uuid, properties, (error) => {
       this.setState({error, loading: false})
       browserHistory.push(`/gateblu/${uuid}`)
@@ -53,10 +46,10 @@ export default class ClaimGateblu extends Component {
 
     if (loading) return <Spinner size="large"/>
     if (error) return <ErrorState title={error.message} />
-    if (_.isEmpty(gateblu)) return <ErrorMsg title="Missing Gateblu" />
+    if (_.isEmpty(gateblu)) return <ErrorState title="Missing Gateblu" />
 
-    return <div>
-      <Button onClick={this.claimGateblu}>Claim Gateblu</Button>
-    </div>
+    return <Page>
+      <EmptyState title='Claim Gateblu' description="Add this Gateblu to your account" cta="Claim" action={this.claimGateblu} />
+    </Page>
   }
 }

@@ -8,7 +8,15 @@ import {getConnector} from '../services/connectors-service'
 import {browserHistory} from 'react-router'
 
 import DeviceEditor from '../components/device-editor'
-import {Spinner, ErrorState, Button, Page, PageHeader, PageTitle, Icon, Breadcrumb} from 'zooid-ui'
+import {Spinner,
+  ErrorState,
+  Button,
+  Page,
+  PageHeader,
+  PageTitle,
+  Icon,
+  Breadcrumb
+} from 'zooid-ui'
 
 import '../styles/configure-device.css'
 
@@ -67,7 +75,7 @@ export default class ConfigureDevice extends Component {
     if (_.isEmpty(device)) return <ErrorState title="Missing Device"/>
 
     const breadcumbFragments = [
-      { component: <Link to="/">Gateblus</Link> },
+      { component: <Link to="/">My Gateblus</Link> },
       { component: <Link to={`/gateblu/${gateblu.uuid}`}>{gateblu.name}</Link> },
       { label: device.name }
     ]
@@ -84,6 +92,9 @@ export default class ConfigureDevice extends Component {
 
     return <Page>
       <Breadcrumb fragments={breadcumbFragments}></Breadcrumb>
+      <PageHeader>
+        <PageTitle>Configure Device</PageTitle>
+      </PageHeader>
       <div className="ConfigureDevice--actions">
         <Button className="ConfigureDevice--action" kind={stopButtonType} onClick={this.stopDevice}><Icon name="MdStop"/></Button>
         <Button className="ConfigureDevice--action" kind={playButtonType} onClick={this.startDevice}><Icon name="MdPlayArrow"/></Button>

@@ -20,7 +20,7 @@ export default class GetStarted extends Component {
 
   render() {
     const breadcumbFragments = [
-      { component: <Link to="/">Gateblus</Link> },
+      { component: <Link to="/">My Gateblus</Link> },
       { label: 'Get Started' }
     ]
 

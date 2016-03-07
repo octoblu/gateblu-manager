@@ -12,6 +12,8 @@ import {
   ErrorState,
   EmptyState,
   Page,
+  PageHeader,
+  PageTitle,
   Breadcrumb,
   Card,
   ProgressBar
@@ -100,13 +102,16 @@ export default class AddDevice extends Component {
     const {name} = gateblu
 
     const breadcumbFragments = [
-      { component: <Link to="/">Gateblus</Link> },
+      { component: <Link to="/">My Gateblus</Link> },
       { component: <Link to={`/gateblu/${gateblu.uuid}`}>{gateblu.name}</Link> },
       { label: `Install ${connector.type}` }
     ]
 
     return <Page>
       <Breadcrumb fragments={breadcumbFragments}></Breadcrumb>
+      <PageHeader>
+        <PageTitle>Install Device</PageTitle>
+      </PageHeader>
       {page}
     </Page>
   }

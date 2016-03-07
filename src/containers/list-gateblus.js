@@ -1,12 +1,19 @@
 import _ from 'lodash'
 import React, { Component, PropTypes } from 'react'
 import {browserHistory} from 'react-router'
-import { Page, PageHeader, PageTitle, List } from 'zooid-ui'
 
 import DevicesService from '../services/devices-service'
 import { getMeshbluConfig } from '../services/auth-service'
 
-import {Spinner, ErrorState, EmptyState} from 'zooid-ui'
+import {
+  Spinner,
+  ErrorState,
+  EmptyState,
+  Page,
+  PageHeader,
+  PageTitle
+} from 'zooid-ui'
+
 import GatebluList from '../components/gateblu-list'
 
 export default class ListGateblus extends Component {
@@ -35,6 +42,7 @@ export default class ListGateblus extends Component {
     if (loading) return <Spinner size="large"/>
     if (error) return <ErrorState title={error.message} />
     if (_.isEmpty(gateblus)) return <EmptyState title="No Gateblus" cta="Get Started" action={this.getStarted}/>
+
 
     return <Page>
       <PageHeader>
