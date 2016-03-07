@@ -3,8 +3,7 @@ import url from 'url'
 import {Button} from 'zooid-ui'
 
 import {CLIENT_ID, PROVIDER_URI} from '../constants/oauth'
-import Loading from '../components/loading'
-import ErrorMsg from '../components/error'
+import {Spinner} from 'zooid-ui'
 
 import {fetchOctobluUser} from '../services/auth-service'
 
@@ -69,7 +68,7 @@ export default class Authenticated extends Component {
         <h1>Redirecting to Gateblu Docs...</h1>
       </div>
     }
-    if (!octobluUser) return <Loading message="Loading user..."/>
+    if (!octobluUser) return <Spinner size="large"/>
     return <div>{children}</div>
   }
 }

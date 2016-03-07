@@ -11,7 +11,7 @@ const GatebluList = ({ devices, children, className }) => {
   );
 
   let gatebluItems = _.map(devices, (device) => {
-    return <GatebluItem device={device}></GatebluItem>
+    return <GatebluItem key={device.uuid} device={device}></GatebluItem>
   })
 
   return <div className={componentClass}>

@@ -6,8 +6,7 @@ import {getMeshbluConfig} from '../services/auth-service'
 import {getConnector} from '../services/connectors-service'
 import {browserHistory} from 'react-router'
 
-import Loading from '../components/loading'
-import ErrorMsg from '../components/error'
+import {Spinner, ErrorState, EmptyState} from 'zooid-ui'
 
 export default class AddDevice extends Component {
   state = {
@@ -76,10 +75,10 @@ export default class AddDevice extends Component {
   render() {
     const { loading, done, adding, stateMessage, gateblu, error, connector } = this.state
 
-    if (loading) return <Loading message="Loading..."/>
-    if (error) return <ErrorMsg errorMessage={error.message} />
-    if (_.isEmpty(gateblu)) return <h3>Missing Gateblu</h3>
-    if (_.isEmpty(connector)) return <h3>Missing Connector</h3>
+    if (loading) return <Spinner size="large"/>
+    if (error) return <ErrorState title={error.message} />
+    if (_.isEmpty(gateblu)) return <EmptyState title="Missing Gateblu" />
+    if (_.isEmpty(connector)) return <EmptyState title="Missing Connector" />
 
     const {name} = gateblu
 

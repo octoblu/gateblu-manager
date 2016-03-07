@@ -10,13 +10,15 @@ import AvailableConnectors from './containers/available-connectors'
 import ClaimGateblu from './containers/claim-gateblu'
 import ConfigureDevice from './containers/configure-device'
 import AddDevice from './containers/add-device'
-import {storeAuthentication} from './services/auth-service.js'
+import GetStarted from './containers/get-started'
+import {storeAuthentication} from './services/auth-service'
 
 render((
   <Router history={browserHistory}>
     <Route path="/authenticated" onEnter={storeAuthentication}/>
     <Route path="/" component={Layout}>
       <IndexRoute component={ListGateblus}/>
+      <Route path="/get-started" component={GetStarted}/>
       <Route path="/gateblu/:uuid" component={ConfigureGateblu}/>
       <Route path="/gateblu/:uuid/add" component={AvailableConnectors}/>
       <Route path="/gateblu/:uuid/add/:type" component={AddDevice}/>

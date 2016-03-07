@@ -7,9 +7,7 @@ import {getConnector} from '../services/connectors-service'
 import {browserHistory} from 'react-router'
 
 import DeviceEditor from '../components/device-editor'
-import Loading from '../components/loading'
-import ErrorMsg from '../components/error'
-import {Button} from 'zooid-ui'
+import {Spinner, ErrorState, Button} from 'zooid-ui'
 
 export default class ConfigureDevice extends Component {
   state = {
@@ -47,9 +45,9 @@ export default class ConfigureDevice extends Component {
   render() {
     const { loading, device, error, connector } = this.state
 
-    if (loading) return <Loading message="Loading..."/>
-    if (error) return <ErrorMsg errorMessage={error.message} />
-    if (_.isEmpty(device)) return <h3>Missing Device</h3>
+    if (loading) return <Spinner size="large"/>
+    if (error) return <ErrorState title={error.message} />
+    if (_.isEmpty(device)) return <ErrorState title="Missing Device"/>
 
     const {name, uuid} = device
     const meshbluConfig = getMeshbluConfig()

@@ -6,8 +6,7 @@ import {getMeshbluConfig} from '../services/auth-service'
 import DevicesService from '../services/devices-service'
 import { getAvailableConnectors } from '../services/connectors-service'
 
-import Loading from '../components/loading'
-import ErrorMsg from '../components/error'
+import {Spinner, ErrorState} from 'zooid-ui'
 
 import { Breadcrumb, Button } from 'zooid-ui'
 import { Page, PageHeader, PageTitle, Nav } from 'zooid-ui'
@@ -57,9 +56,9 @@ export default class ConfigureGateblu extends Component {
   render() {
     const { loading, gateblu, error, devices } = this.state
 
-    if (loading) return <Loading message="Loading..."/>
-    if (error) return <ErrorMsg errorMessage={error.message} />
-    if (_.isEmpty(gateblu)) return <h3>Missing Gateblu</h3>
+    if (loading) return <Spinner size="large"/>
+    if (error) return <ErrorState title={error.message} />
+    if (_.isEmpty(gateblu)) return <ErrorState title="Missing Gateblu"></ErrorState>
 
     const breadcumbFragments = [
       { component: <Link to="/">Gateblus</Link> },

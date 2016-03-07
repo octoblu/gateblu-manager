@@ -5,9 +5,7 @@ import DevicesService from '../services/devices-service'
 import {getMeshbluConfig} from '../services/auth-service'
 
 import {browserHistory} from 'react-router'
-import Loading from '../components/loading'
-import ErrorMsg from '../components/error'
-import {Button} from 'zooid-ui'
+import {Spinner, ErrorState, Button} from 'zooid-ui'
 
 export default class ClaimGateblu extends Component {
   state = {
@@ -53,9 +51,9 @@ export default class ClaimGateblu extends Component {
   render() {
     const { loading, gateblu, error } = this.state
 
-    if (loading) return <Loading message="Loading..."/>
-    if (error) return <ErrorMsg errorMessage={error.message} />
-    if (_.isEmpty(gateblu)) return <h3>Missing Gateblu</h3>
+    if (loading) return <Spinner size="large"/>
+    if (error) return <ErrorState title={error.message} />
+    if (_.isEmpty(gateblu)) return <ErrorMsg title="Missing Gateblu" />
 
     return <div>
       <Button onClick={this.claimGateblu}>Claim Gateblu</Button>
