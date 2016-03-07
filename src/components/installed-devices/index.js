@@ -5,7 +5,7 @@ import { Link } from 'react-router'
 import {Card, DeviceIcon} from 'zooid-ui'
 import classNames from 'classnames';
 
-const InstalledDevices = ({ devices, children, className }) => {
+const InstalledDevices = ({ devices, gatebluUuid, children, className }) => {
   const componentClass = classNames(
     'InstalledDevices',
     className
@@ -23,7 +23,7 @@ const InstalledDevices = ({ devices, children, className }) => {
           <h3 className="InstalledDevice-name">{name} <small className="InstalledDevice-status">{runningText}</small></h3>
         </div>
         <footer className="InstalledDevice-footer">
-          <Link to={`/devices/${uuid}`} className="InstalledDevice-button">Configure Device</Link>
+          <Link to={`/gateblu/${gatebluUuid}/devices/${uuid}`} className="InstalledDevice-button">Configure Device</Link>
         </footer>
       </main>
     </Card>
@@ -36,7 +36,8 @@ const InstalledDevices = ({ devices, children, className }) => {
 
 InstalledDevices.propTypes = {
   className: PropTypes.string,
-  devices: PropTypes.array.isRequired
+  devices: PropTypes.array.isRequired,
+  gatebluUuid: PropTypes.string.isRequired
 }
 
 export default InstalledDevices

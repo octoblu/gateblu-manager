@@ -1,6 +1,7 @@
 import _ from 'lodash'
 
 import React, { Component, PropTypes } from 'react'
+import {Link} from 'react-router'
 import DevicesService from '../services/devices-service'
 import {getMeshbluConfig} from '../services/auth-service'
 import {getConnector} from '../services/connectors-service'
@@ -11,8 +12,7 @@ import {
   ErrorState,
   EmptyState,
   Page,
-  PageHeader,
-  PageTitle,
+  Breadcrumb,
   Card,
   ProgressBar
 } from 'zooid-ui'
@@ -89,19 +89,25 @@ export default class AddDevice extends Component {
     if (error) return <ErrorState title={error.message} />
     if (_.isEmpty(gateblu)) return <ErrorState title="Missing Gateblu" />
     if (_.isEmpty(connector)) return <ErrorState title="Missing Connector" />
-    if (!adding) return <EmptyState title={`Install ${connector.name}`}  cta="Install Connector" action={this.addNode} />
+
+    let page = <Card>
+      <h3>{stateMessage}</h3>
+      <br/>
+      <ProgressBar completed={progress}/>
+    </Card>
+    if (!adding) page = <EmptyState title={`Install ${connector.name}`}  cta="Install Connector" action={this.addNode} />
 
     const {name} = gateblu
 
+    const breadcumbFragments = [
+      { component: <Link to="/">Gateblus</Link> },
+      { component: <Link to={`/gateblu/${gateblu.uuid}`}>{gateblu.name}</Link> },
+      { label: `Install ${connector.type}` }
+    ]
+
     return <Page>
-      <PageHeader>
-        <PageTitle>Installing Device</PageTitle>
-      </PageHeader>
-      <Card>
-        <h3>{stateMessage}</h3>
-        <br/>
-        <ProgressBar completed={progress}/>
-      </Card>
+      <Breadcrumb fragments={breadcumbFragments}></Breadcrumb>
+      {page}
     </Page>
   }
 }

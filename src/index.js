@@ -23,7 +23,7 @@ render((
       <Route path="/gateblu/:uuid/add" component={AvailableConnectors}/>
       <Route path="/gateblu/:uuid/add/:type" component={AddDevice}/>
       <Route path="/gateblu/:uuid/claim" component={ClaimGateblu}/>
-      <Route path="/devices/:uuid" component={ConfigureDevice}/>
+      <Route path="/gateblu/:gatebluUuid/devices/:uuid" component={ConfigureDevice}/>
     </Route>
   </Router>
 ), document.getElementById('app'))

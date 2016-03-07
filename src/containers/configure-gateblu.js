@@ -30,11 +30,17 @@ export default class ConfigureGateblu extends Component {
     this.getDevices()
   }
 
-  getDevices = () => {
+  getGateblu = (callback) => {
     const {uuid} = this.props.params
     this.devicesService.getDevice(uuid, (error, gateblu) => {
       if(error) return this.setState({error, gateblu, loading: false})
+      this.setState({gateblu})
+      if(callback) callback(null, gateblu)
+    })
+  }
 
+  getDevices = () => {
+    this.getGateblu((error, gateblu) => {
       if(_.isEmpty(gateblu.devices)) return this.setState({gateblu, loading: false})
       let uuids = gateblu.devices
       if(_.isPlainObject(_.first(uuids))) {
@@ -58,6 +64,20 @@ export default class ConfigureGateblu extends Component {
     browserHistory.push(`/gateblu/${uuid}/add`)
   }
 
+  stopGateblu = () => {
+    const {uuid} = this.state.gateblu
+    this.devicesService.update(uuid, {'gateblu.running': false}, (error) => {
+      this.getGateblu()
+    })
+  }
+
+  startGateblu = () => {
+    const {uuid} = this.state.gateblu
+    this.devicesService.update(uuid, {'gateblu.running': true}, (error) => {
+      this.getGateblu()
+    })
+  }
+
   render() {
     const { loading, gateblu, error, devices } = this.state
 
@@ -70,14 +90,31 @@ export default class ConfigureGateblu extends Component {
       { label: gateblu.name }
     ]
 
+    let playButtonType = 'hollow-approve'
+    let stopButtonType = 'hollow-danger'
+    if(gateblu.gateblu) {
+      if(gateblu.gateblu.running){
+        playButtonType = 'approve'
+      }else{
+        stopButtonType = 'danger'
+      }
+    }
+
     return <Page>
       <Breadcrumb fragments={breadcumbFragments}></Breadcrumb>
-      <Button className="ConfigureGateblu--available-connectors" kind="primary" onClick={this.availableDevices}><Icon name="MdAdd"/> Available Connectors</Button>
+      <div className="ConfigureGateblu--actions">
+        <Button className="ConfigureGateblu--action" kind={stopButtonType} onClick={this.stopGateblu}><Icon name="MdStop"/></Button>
+        <Button className="ConfigureGateblu--action" kind={playButtonType} onClick={this.startGateblu}><Icon name="MdPlayArrow"/></Button>
+        <Button className="ConfigureGateblu--action" kind="primary" onClick={this.availableDevices}><Icon name="MdAdd"/> Add</Button>
+      </div>
       <DeviceEditor
         onChange={this.onChange}
         device={gateblu}
       ></DeviceEditor>
-      <InstalledDevices devices={devices}></InstalledDevices>
+      <InstalledDevices
+        devices={devices}
+        gatebluUuid={gateblu.uuid}
+        ></InstalledDevices>
     </Page>
   }
 }
