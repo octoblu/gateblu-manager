@@ -13,12 +13,12 @@ export default class Authenticated extends Component {
   }
 
   componentDidMount() {
-    if(process.env.NODE_ENV === 'production') {
-      _.delay(() =>{
-        window.location='https://gateblu.readme.io'
-      }, 1000)
-      return
-    }
+    // if(process.env.NODE_ENV === 'production') {
+    //   _.delay(() =>{
+    //     window.location='https://gateblu.readme.io'
+    //   }, 1000)
+    //   return
+    // }
     fetchOctobluUser((error, octobluUser) => {
       if(error || !octobluUser) {
         return this.redirectToLogin()
