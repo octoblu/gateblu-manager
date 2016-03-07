@@ -20,6 +20,9 @@ export default class DevicesService {
   register(properties, callback){
     this.meshbluHttp.register(properties, callback)
   }
+  unregister(uuid, callback) {
+    this.meshbluHttp.unregister(uuid, callback)
+  }
   update(uuid, properties, callback){
     this.meshbluHttp.update(uuid, properties, callback)
   }

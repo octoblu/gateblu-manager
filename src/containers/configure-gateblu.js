@@ -19,6 +19,7 @@ import {
 
 import DeviceEditor from '../components/device-editor'
 import InstalledDevices from '../components/installed-devices'
+import DeviceActions from '../components/device-actions'
 
 import '../styles/configure-gateblu.css'
 
@@ -85,6 +86,14 @@ export default class ConfigureGateblu extends Component {
     })
   }
 
+  deleteGateblu = () => {
+    const {uuid} = this.state.gateblu
+    this.devicesService.unregister(uuid, (error) => {
+      if(error) return this.setState({error})
+      browserHistory.push('/')
+    })
+  }
+
   render() {
     const { loading, gateblu, error, devices } = this.state
 
@@ -97,26 +106,20 @@ export default class ConfigureGateblu extends Component {
       { label: gateblu.name }
     ]
 
-    let playButtonType = 'hollow-approve'
-    let stopButtonType = 'hollow-danger'
-    if(gateblu.gateblu) {
-      if(gateblu.gateblu.running){
-        playButtonType = 'approve'
-      }else{
-        stopButtonType = 'danger'
-      }
-    }
+    let buttons = <Button className="DeviceActions--action" kind="primary" onClick={this.availableDevices}><Icon name="MdAdd"/></Button>
 
     return <Page>
       <Breadcrumb fragments={breadcumbFragments}></Breadcrumb>
       <PageHeader>
         <PageTitle>Configure Gateblu</PageTitle>
       </PageHeader>
-      <div className="ConfigureGateblu--actions">
-        <Button className="ConfigureGateblu--action" kind={stopButtonType} onClick={this.stopGateblu}><Icon name="MdStop"/></Button>
-        <Button className="ConfigureGateblu--action" kind={playButtonType} onClick={this.startGateblu}><Icon name="MdPlayArrow"/></Button>
-        <Button className="ConfigureGateblu--action" kind="primary" onClick={this.availableDevices}><Icon name="MdAdd"/> Add</Button>
-      </div>
+      <DeviceActions
+        buttons={buttons}
+        device={gateblu}
+        onDelete={this.deleteGateblu}
+        onStart={this.startGateblu}
+        onStop={this.stopGateblu}
+        />
       <DeviceEditor
         onChange={this.onChange}
         device={gateblu}

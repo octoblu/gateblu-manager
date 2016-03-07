@@ -8,13 +8,12 @@ import {getConnector} from '../services/connectors-service'
 import {browserHistory} from 'react-router'
 
 import DeviceEditor from '../components/device-editor'
+import DeviceActions from '../components/device-actions'
 import {Spinner,
   ErrorState,
-  Button,
   Page,
   PageHeader,
   PageTitle,
-  Icon,
   Breadcrumb
 } from 'zooid-ui'
 
@@ -49,13 +48,16 @@ export default class ConfigureDevice extends Component {
   onChangeNow = (properties) => {
     let {device} = this.state
     const {uuid} = device
-    this.setState({device:_.extend(device, properties)})
-    this.devicesService.update(uuid, properties, (error) => {})
+    this.devicesService.update(uuid, properties, (error) => {
+      if(error) return this.setState({error})
+      this.getDevice()
+    })
   }
 
   stopDevice = () => {
     const {uuid} = this.state.device
     this.devicesService.update(uuid, {'gateblu.running': false}, (error) => {
+      if(error) return this.setState({error})
       this.getDevice()
     })
   }
@@ -63,7 +65,16 @@ export default class ConfigureDevice extends Component {
   startDevice = () => {
     const {uuid} = this.state.device
     this.devicesService.update(uuid, {'gateblu.running': true}, (error) => {
+      if(error) return this.setState({error})
       this.getDevice()
+    })
+  }
+
+  deleteDevice = () => {
+    const {uuid} = this.state.device
+    this.devicesService.unregister(uuid, (error) => {
+      if(error) return this.setState({error})
+      browserHistory.push(`/gateblu/${this.state.gateblu.uuid}`)
     })
   }
 
@@ -80,25 +91,17 @@ export default class ConfigureDevice extends Component {
       { label: device.name }
     ]
 
-    let playButtonType = 'hollow-approve'
-    let stopButtonType = 'hollow-danger'
-    if(device.gateblu) {
-      if(device.gateblu.running){
-        playButtonType = 'approve'
-      }else{
-        stopButtonType = 'danger'
-      }
-    }
-
     return <Page>
       <Breadcrumb fragments={breadcumbFragments}></Breadcrumb>
       <PageHeader>
         <PageTitle>Configure Device</PageTitle>
       </PageHeader>
-      <div className="ConfigureDevice--actions">
-        <Button className="ConfigureDevice--action" kind={stopButtonType} onClick={this.stopDevice}><Icon name="MdStop"/></Button>
-        <Button className="ConfigureDevice--action" kind={playButtonType} onClick={this.startDevice}><Icon name="MdPlayArrow"/></Button>
-      </div>
+      <DeviceActions
+        device={device}
+        onDelete={this.deleteDevice}
+        onStart={this.startDevice}
+        onStop={this.stopDevice}
+        />
       <DeviceEditor
         onChange={this.onChange}
         device={device}
