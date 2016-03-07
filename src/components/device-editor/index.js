@@ -5,9 +5,9 @@ import MeshbluDeviceEditor from 'zooid-meshblu-device-editor'
 import {Button} from 'zooid-ui'
 import classNames from 'classnames';
 
-const ConfigureDevice = ({ device, onChange, children, className }) => {
+const DeviceEditor = ({ device, onChange, children, className }) => {
   const componentClass = classNames(
-    'ConfigureDevice',
+    'DeviceEditor',
     className
   );
 
@@ -16,10 +16,10 @@ const ConfigureDevice = ({ device, onChange, children, className }) => {
   </div>
 };
 
-ConfigureDevice.propTypes = {
+DeviceEditor.propTypes = {
   className: PropTypes.string,
   device: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired
 }
 
-export default ConfigureDevice
+export default DeviceEditor

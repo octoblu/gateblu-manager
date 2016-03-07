@@ -10,17 +10,16 @@ import Loading from '../components/loading'
 import ErrorMsg from '../components/error'
 
 import { Breadcrumb, Button } from 'zooid-ui'
-import { Page, PageHeader, PageTitle, Nav } from 'zooid-ui'
+import { Page, PageHeader, PageTitle } from 'zooid-ui'
 
-import DeviceEditor from '../components/device-editor'
 import InstalledDevices from '../components/installed-devices'
 
 export default class ConfigureGateblu extends Component {
   state = {
     loading: true,
     gateblu: null,
-    devices: null,
-    error: null
+    connectors: null,
+    error: null,
   }
 
   componentDidMount() {
@@ -35,27 +34,14 @@ export default class ConfigureGateblu extends Component {
     this.devicesService.getDevice(uuid, (error, gateblu) => {
       if(error) return this.setState({error, gateblu, loading: false})
 
-      if(_.isEmpty(gateblu.devices)) return this.setState({gateblu, loading: false})
-      let uuids = gateblu.devices
-      if(_.isPlainObject(_.first(uuids))) {
-        uuids = _.map(gateblu.devices, 'uuid')
-      }
-      this.devicesService.getDevices({uuid: {'$in': uuids}}, (error, devices) => {
-        console.log('devices',devices)
-        this.setState({error, devices, gateblu, loading: false})
-      })
+      getAvailableConnectors((error, connectors)=>{
+        this.setState({error, gateblu, connectors})
+      });
     })
   }
 
-  onChangeNow = (properties) => {
-    let {gateblu} = this.state
-    const {uuid} = gateblu
-    this.setState({gateblu:_.extend(gateblu, properties)})
-    this.devicesService.update(uuid, properties, (error) => {})
-  }
-
   render() {
-    const { loading, gateblu, error, devices } = this.state
+    const { loading, gateblu, error, connectors } = this.state
 
     if (loading) return <Loading message="Loading..."/>
     if (error) return <ErrorMsg errorMessage={error.message} />
@@ -63,16 +49,13 @@ export default class ConfigureGateblu extends Component {
 
     const breadcumbFragments = [
       { component: <Link to="/">Gateblus</Link> },
-      { label: gateblu.name }
+      { component: <Link to={`/gateblu/${gateblu.uuid}`}>{gateblu.name}</Link> },
+      { label: 'Available Connectors' }
     ]
 
     return <Page>
       <Breadcrumb fragments={breadcumbFragments}></Breadcrumb>
-      <DeviceEditor
-        onChange={this.onChange}
-        device={gateblu}
-      ></DeviceEditor>
-      <InstalledDevices devices={devices}></InstalledDevices>
+      <Connectors connectors={connectors}></Connectors>
     </Page>
   }
 }

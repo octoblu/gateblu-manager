@@ -1,7 +1,8 @@
 import './index.css';
 import _ from 'lodash'
 import React, { PropTypes } from 'react';
-import {Button, Card, OctobluIcon} from 'zooid-ui'
+import { Link } from 'react-router'
+import {Card, DeviceIcon} from 'zooid-ui'
 import classNames from 'classnames';
 
 const InstalledDevices = ({ devices, children, className }) => {
@@ -12,18 +13,17 @@ const InstalledDevices = ({ devices, children, className }) => {
 
   let items = _.map(devices, (device) => {
     const {name, uuid, type} = device
-    const pathToDevice = `/devices/${uuid}`
     let runningText = 'offline'
     if(device && device.running) runningText = 'online'
 
-    return <Card className="InstalledDevice">
-      <aside><OctobluIcon type={type} className="InstalledDevice-icon"></OctobluIcon></aside>
+    return <Card key={device.uuid} className="InstalledDevice">
+      <aside><DeviceIcon type={type} className="InstalledDevice-icon"></DeviceIcon></aside>
       <main className="InstalledDevice-main">
         <div className="InstalledDevice-body">
           <h3 className="InstalledDevice-name">{name} <small className="InstalledDevice-status">{runningText}</small></h3>
         </div>
         <footer className="InstalledDevice-footer">
-          <a href={pathToDevice} className="InstalledDevice-button">Configure Gateblu</a>
+          <Link to={`/devices/${uuid}`} className="InstalledDevice-button">Configure Device</Link>
         </footer>
       </main>
     </Card>

@@ -6,9 +6,10 @@ import { Router, IndexRoute, Route, browserHistory } from 'react-router'
 import Layout from './containers/layout'
 import ListGateblus from './containers/list-gateblus'
 import ConfigureGateblu from './containers/configure-gateblu'
+import AvailableConnectors from './containers/available-connectors'
 import ClaimGateblu from './containers/claim-gateblu'
-import ConfigureNode from './containers/configure-node'
-import AddNode from './containers/add-node'
+import ConfigureDevice from './containers/configure-device'
+import AddDevice from './containers/add-device'
 import {storeAuthentication} from './services/auth-service.js'
 
 render((
@@ -17,9 +18,10 @@ render((
     <Route path="/" component={Layout}>
       <IndexRoute component={ListGateblus}/>
       <Route path="/gateblu/:uuid" component={ConfigureGateblu}/>
-      <Route path="/gateblu/:uuid/add/:type" component={AddNode}/>
+      <Route path="/gateblu/:uuid/add" component={AvailableConnectors}/>
+      <Route path="/gateblu/:uuid/add/:type" component={AddDevice}/>
       <Route path="/gateblu/:uuid/claim" component={ClaimGateblu}/>
-      <Route path="/device/:uuid" component={ConfigureNode}/>
+      <Route path="/devices/:uuid" component={ConfigureDevice}/>
     </Route>
   </Router>
 ), document.getElementById('app'))

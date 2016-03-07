@@ -6,12 +6,12 @@ import {getMeshbluConfig} from '../services/auth-service'
 import {getConnector} from '../services/connectors-service'
 import {browserHistory} from 'react-router'
 
-import ConfigureDevice from '../components/configure-device'
+import DeviceEditor from '../components/device-editor'
 import Loading from '../components/loading'
 import ErrorMsg from '../components/error'
 import {Button} from 'zooid-ui'
 
-export default class ConfigureGateblu extends Component {
+export default class ConfigureDevice extends Component {
   state = {
     loading: true,
     device: null,
@@ -56,10 +56,10 @@ export default class ConfigureGateblu extends Component {
 
     return <div>
       <h2>{name} : Device</h2>
-      <ConfigureDevice
+      <DeviceEditor
         onChange={this.onChange}
         device={device}
-      ></ConfigureDevice>
+      ></DeviceEditor>
     </div>
   }
 }

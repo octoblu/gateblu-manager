@@ -9,7 +9,7 @@ import {browserHistory} from 'react-router'
 import Loading from '../components/loading'
 import ErrorMsg from '../components/error'
 
-export default class ConfigureGateblu extends Component {
+export default class AddDevice extends Component {
   state = {
     loading: true,
     gateblu: null,

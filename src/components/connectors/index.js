@@ -1,7 +1,7 @@
 import './index.css';
 import _ from 'lodash'
 import React, { PropTypes } from 'react';
-import {Icon, Button, Card, OctobluIcon} from 'zooid-ui'
+import {Icon, Button, Card, DeviceIcon} from 'zooid-ui'
 import classNames from 'classnames';
 
 const Connectors = ({ connectors, children, className }) => {
@@ -15,7 +15,7 @@ const Connectors = ({ connectors, children, className }) => {
     const pathToInstallation = `/gateblu/${uuid}`
 
     return <Card className="Connector">
-      <aside><OctobluIcon type={type} className="Connector-icon"></OctobluIcon></aside>
+      <aside><DeviceIcon type={type} className="Connector-icon"></DeviceIcon></aside>
       <main className="Connector-main">
         <div className="Connector-body">
           <h3 className="Connector-name">{name}</h3>
