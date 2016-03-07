@@ -1,6 +1,7 @@
 import './index.css';
 import _ from 'lodash'
 import React, { PropTypes } from 'react';
+import {Link} from 'react-router'
 import {Icon, Button, Card, DeviceIcon} from 'zooid-ui'
 import classNames from 'classnames';
 
@@ -12,7 +13,6 @@ const Connectors = ({ connectors, children, className }) => {
 
   let items = _.map(connectors, (connector) => {
     const {name, uuid, type} = connector
-    const pathToInstallation = `/gateblu/${uuid}`
 
     return <Card className="Connector">
       <aside><DeviceIcon type={type} className="Connector-icon"></DeviceIcon></aside>
@@ -21,7 +21,7 @@ const Connectors = ({ connectors, children, className }) => {
           <h3 className="Connector-name">{name}</h3>
         </div>
         <footer className="Connector-footer">
-          <Button kind="primary" href={pathToInstallation} className="Connector-button"><Icon name="MdAdd"/></Button>
+          <Link to={`/gateblu/${uuid}`} className="Connector-button">Add to Gateblu</Link>
         </footer>
       </main>
     </Card>

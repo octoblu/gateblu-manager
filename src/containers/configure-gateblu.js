@@ -1,14 +1,13 @@
 import _ from 'lodash'
 import React, { Component, PropTypes } from 'react'
-import { Link } from 'react-router'
+import { Link, browserHistory } from 'react-router'
 
 import {getMeshbluConfig} from '../services/auth-service'
 import DevicesService from '../services/devices-service'
 import { getAvailableConnectors } from '../services/connectors-service'
 
 import {Spinner, ErrorState} from 'zooid-ui'
-
-import { Breadcrumb, Button } from 'zooid-ui'
+import { Breadcrumb, Button, Icon } from 'zooid-ui'
 import { Page, PageHeader, PageTitle, Nav } from 'zooid-ui'
 
 import DeviceEditor from '../components/device-editor'
@@ -53,6 +52,11 @@ export default class ConfigureGateblu extends Component {
     this.devicesService.update(uuid, properties, (error) => {})
   }
 
+  availableDevices = () => {
+    const {uuid} = this.state.gateblu
+    browserHistory.push(`/gateblu/${uuid}/add`)
+  }
+
   render() {
     const { loading, gateblu, error, devices } = this.state
 
@@ -71,6 +75,7 @@ export default class ConfigureGateblu extends Component {
         onChange={this.onChange}
         device={gateblu}
       ></DeviceEditor>
+      <Button kind="primary" onClick={this.availableDevices}><Icon name="MdAdd"/> Available Devices</Button>
       <InstalledDevices devices={devices}></InstalledDevices>
     </Page>
   }

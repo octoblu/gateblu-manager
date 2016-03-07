@@ -11,7 +11,7 @@ import {Spinner, ErrorState} from 'zooid-ui'
 import { Breadcrumb, Button } from 'zooid-ui'
 import { Page, PageHeader, PageTitle } from 'zooid-ui'
 
-import InstalledDevices from '../components/installed-devices'
+import Connectors from '../components/connectors'
 
 export default class ConfigureGateblu extends Component {
   state = {
@@ -22,19 +22,15 @@ export default class ConfigureGateblu extends Component {
   }
 
   componentDidMount() {
-    this.setState({ loading: true })
-    this.onChange = _.debounce(this.onChangeNow, 1000, {leading: true})
-    this.devicesService = new DevicesService()
-    this.getDevices()
-  }
-
-  getDevices = () => {
     const {uuid} = this.props.params
+    this.setState({ loading: true })
+
+    this.devicesService = new DevicesService()
     this.devicesService.getDevice(uuid, (error, gateblu) => {
       if(error) return this.setState({error, gateblu, loading: false})
 
       getAvailableConnectors((error, connectors)=>{
-        this.setState({error, gateblu, connectors})
+        this.setState({error, gateblu, connectors, loading: false})
       });
     })
   }
