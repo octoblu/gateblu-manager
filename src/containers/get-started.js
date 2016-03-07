@@ -1,9 +1,11 @@
 import _ from 'lodash'
-import {browserHistory} from 'react-router'
+import {browserHistory, Link} from 'react-router'
 import React, { Component, PropTypes } from 'react'
-import { Page, PageHeader, PageTitle, List } from 'zooid-ui'
+import { Page, PageHeader, PageTitle, Breadcrumb } from 'zooid-ui'
 
 import {Button, Card} from 'zooid-ui'
+
+import '../styles/get-started.css'
 
 const MAC_OS_X_DOWNLOAD_LINK='https://s3-us-west-2.amazonaws.com/gateblu/node-gateblu-service/latest/GatebluService.dmg'
 
@@ -17,7 +19,13 @@ export default class GetStarted extends Component {
   }
 
   render() {
+    const breadcumbFragments = [
+      { component: <Link to="/">Gateblus</Link> },
+      { label: 'Get Started' }
+    ]
+
     return <Page>
+      <Breadcrumb fragments={breadcumbFragments}></Breadcrumb>
       <PageHeader>
         <PageTitle>Get Started</PageTitle>
       </PageHeader>
@@ -32,7 +40,7 @@ export default class GetStarted extends Component {
         <br/>
         <p>Install Gateblu on your computer or device. The service will run in the background.</p>
         <br/>
-        <Button kind="primary" href={MAC_OS_X_DOWNLOAD_LINK}>Download (Mac OS X)</Button>
+        <Button className="GetStarted--cta" kind="primary" href={MAC_OS_X_DOWNLOAD_LINK}>Download (Mac OS X)</Button>
       </Card>
       <br/>
       <Card>
@@ -40,7 +48,7 @@ export default class GetStarted extends Component {
         <br/>
         <p>Manage all of your Gateblus here, at gateblu.octoblu.com</p>
         <br/>
-        <Button kind="primary" onClick={this.manageGateblus}>Manage Your Gateblus</Button>
+        <Button className="GetStarted--cta" kind="primary" onClick={this.manageGateblus}>Manage Your Gateblus</Button>
       </Card>
     </Page>
   }

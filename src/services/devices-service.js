@@ -27,4 +27,26 @@ export default class DevicesService {
     let query = {$addToSet: {devices: deviceUuid}}
     this.meshbluHttp.updateDangerously(uuid, query, callback)
   }
+  getNewDeviceProperties({gatebluUuid, connectorName, userUuid, name, type}) {
+    return {
+      name: name,
+      type: type,
+      category: 'device',
+      gateblu: {
+        uuid: gatebluUuid,
+        connector: connectorName,
+        initializing: true,
+        running: true
+      },
+      sendWhitelist: [],
+      receiveWhitelist: [],
+      configureAsWhitelist: [],
+      discoverAsWhitelist: [],
+      configureWhitelist: [gatebluUuid, userUuid],
+      discoverWhitelist: [gatebluUuid, userUuid],
+      sendAsWhitelist: [gatebluUuid],
+      receiveAsWhitelist: [gatebluUuid],
+      owner: userUuid
+    }
+  }
 }

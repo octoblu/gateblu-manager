@@ -17,22 +17,13 @@ export default class ConfigureDevice extends Component {
   }
 
   componentDidMount() {
+    const {uuid} = this.props.params
     this.setState({ loading: true })
     this.devicesService = new DevicesService()
-    this.numberOfTries = 0
-    this.getDeviceUntilOptions()
-    this.onChange = _.debounce(this.onChangeNow, 1000, {leading: true})
-  }
-
-  getDeviceUntilOptions = () => {
-    this.numberOfTries++
-    const {uuid} = this.props.params
     this.devicesService.getDevice(uuid, (error, device) => {
-      if(error) return this.setState({error, device, loading: false})
-      if(device.optionsSchema) return this.setState({error, device, loading: false})
-      if(this.numberOfTries > 60) return this.setState({error: new Error("Device Schema Timeout"), loading: false})
-      _.delay(this.getDeviceUntilOptions, 1000)
+      this.setState({error, device, loading: false})
     })
+    this.onChange = _.debounce(this.onChangeNow, 1000, {leading: true})
   }
 
   onChangeNow = (properties) => {

@@ -13,6 +13,8 @@ import { Page, PageHeader, PageTitle, Nav } from 'zooid-ui'
 import DeviceEditor from '../components/device-editor'
 import InstalledDevices from '../components/installed-devices'
 
+import '../styles/configure-gateblu.css'
+
 export default class ConfigureGateblu extends Component {
   state = {
     loading: true,
@@ -39,7 +41,6 @@ export default class ConfigureGateblu extends Component {
         uuids = _.map(gateblu.devices, 'uuid')
       }
       this.devicesService.getDevices({uuid: {'$in': uuids}}, (error, devices) => {
-        console.log('devices',devices)
         this.setState({error, devices, gateblu, loading: false})
       })
     })
@@ -71,11 +72,11 @@ export default class ConfigureGateblu extends Component {
 
     return <Page>
       <Breadcrumb fragments={breadcumbFragments}></Breadcrumb>
+      <Button className="ConfigureGateblu--available-connectors" kind="primary" onClick={this.availableDevices}><Icon name="MdAdd"/> Available Connectors</Button>
       <DeviceEditor
         onChange={this.onChange}
         device={gateblu}
       ></DeviceEditor>
-      <Button kind="primary" onClick={this.availableDevices}><Icon name="MdAdd"/> Available Devices</Button>
       <InstalledDevices devices={devices}></InstalledDevices>
     </Page>
   }

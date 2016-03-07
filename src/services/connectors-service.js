@@ -12,7 +12,12 @@ export function getAvailableConnectors(callback){
     .end((error, response) => {
       if(!response.ok) return callback(new Error('Unable to fetch connectors'))
       if(_.isEmpty(response.body)) return callback()
-      callback(null, _.filter(response.body, {category:'device'}))
+      let connectors = _.filter(response.body, {category:'device'})
+      connectors = _.filter(connectors, (connector) => {
+        if(connector.connector) return true
+        return false
+      })
+      callback(null, connectors)
     })
 }
 

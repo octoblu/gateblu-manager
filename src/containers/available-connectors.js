@@ -50,7 +50,7 @@ export default class ConfigureGateblu extends Component {
 
     return <Page>
       <Breadcrumb fragments={breadcumbFragments}></Breadcrumb>
-      <Connectors connectors={connectors}></Connectors>
+      <Connectors connectors={connectors} gatebluUuid={gateblu.uuid}></Connectors>
     </Page>
   }
 }
