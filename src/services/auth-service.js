@@ -28,7 +28,7 @@ export function fetchOctobluUser(callback) {
 }
 
 export function storeAuthentication(nextState, replace) {
-  const bearerToken = decodeURIComponent(nextState.location.query.code)
+  const bearerToken = decodeURIComponent(nextState.location.query.access_token)
   const redirectUri = nextState.location.query.redirect_uri
   cookie.save('meshbluBearerToken', bearerToken, {path: '/'})
   replace(redirectUri)
