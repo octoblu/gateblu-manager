@@ -8,8 +8,8 @@ export function getMeshbluConfig(){
   const bearerTokenEnvelope = atob(bearerToken)
   const bearerTokenPieces = bearerTokenEnvelope.split(':')
   return {
-    uuid: bearerTokenPieces[1],
-    token: bearerTokenPieces[2],
+    uuid: bearerTokenPieces[0],
+    token: bearerTokenPieces[1],
     server: 'meshblu.octoblu.com',
     port: 443
   }

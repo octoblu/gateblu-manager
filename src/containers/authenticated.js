@@ -47,7 +47,7 @@ export default class Authenticated extends Component {
       query: {
         client_id: CLIENT_ID,
         redirect_uri: this.buildAuthenticateRedirectUri(),
-        response_type: 'code'
+        response_type: 'token'
       }
     })
 
